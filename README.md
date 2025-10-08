@@ -1,5 +1,7 @@
 # Blog-Rob-tica-Servicios
 
+Recomendación antes de leer: algunas imagenes no tienen fondo, recomendado usar el modo claro para poder visualizarlas.
+
 ## Práctica 1 - Aspiradora localizada
 
 La primera práctica se basa en crear un algoritmo BSA de cobertura para una aspiradora. El objetivo es limpiar la mayor superficies posible de una casa, para ello nos proporcionan una imagen en blanco y negro del mapa de la casa, un mundo en Gazebo y las coordenadas del robot (tanto posición como ángulo de giro) en dicho mundo. 
@@ -12,13 +14,30 @@ El primer paso para poder afrontar la práctica es entender los sistemas de coor
 
 (añadir imagen apuntes)
 
-Una vez tenemos esto en cuenta, podemos empezar a hacer el registro del mapa. Para ello, tenemos que ir moviendo el robot a diferentes puntos y apuntar tanto la posición en el simulador como en la imagen. Algo a tener en cuenta es que la imagen es de 1024x1024 pixel. Lo más óptimo sería hacerlo con 12 puntos, pero en este caso lo haré con 4 puntos que serán las 4 esquinas de la casa. En el video se puede ver la toma de coordenadas de un punto:
+Una vez tenemos esto en cuenta, podemos empezar a hacer el registro del mapa. Para ello, tenemos que ir moviendo el robot a diferentes puntos y apuntar tanto la posición en el simulador como en la imagen. Algo a tener en cuenta es que la imagen es de 1012x1012 pixel. Lo más óptimo sería hacerlo con 12 puntos, pero en este caso lo haré con 4 puntos que serán las 4 esquinas de la casa. En el video se puede ver la toma de coordenadas de un punto:
 
 ( añadir video)
 
 (añadir tabla)
 
-Congosto puntos ya calculados, podemos empezar con las matrices de transformación. Necesitamos saber la traslación,  rotación y escala de un mapa al otro. Empezando por lo fácil, la rotación de un mapa a otro es de 0°, lo que hará la matriz más sencilla. Para poder calcular la traslación nos vamos a basar en el primer punto calculado: en el punto (0,0) de la imagen, la posición del robot es (-5.67 , 
+!!!!!!Comprobar signos y valores¡¡¡¡¡¡
+
+Congosto puntos ya calculados, podemos empezar con las matrices de transformación. Necesitamos saber la traslación,  rotación y escala de un mapa al otro. Empezando por lo fácil, la rotación de un mapa a otro es de 0°, lo que hará la matriz más sencilla. Para poder calcular la traslación nos vamos a basar en el primer punto calculado: en el punto (0,0) de la imagen, la posición del robot es (-5.67 , 0 , 3.99). Haciendo la relación entre sistemas de coordenadas entre simulador e imagen podemos sacar que la translación en X es de 5.67 y de Y -3.99. Sólo nos quedaría calcular el escalar, para ello, he seguido la siguiente fórmula
+
+|           | Imagen         | Gazebo        |
+| :---      |     :---:      |          ---: |
+| Punto A   |   (0,0)        | (5.67, -3.99) |
+| Punto B   | (1012,1012)    | (-4.27,5.95)  |
+
+<img width="192" height="69" alt="CodeCogsEqn" src="https://github.com/user-attachments/assets/443c91b6-c03b-4b68-b2ad-3deae170cac3" />
+
+<img width="176" height="69" alt="CodeCogsEqn (1)" src="https://github.com/user-attachments/assets/cade5aaa-7689-42b3-bb04-1e8725c5cfa5" />
+
+
+Teniendo en cuenta que U y J corresponden a las coordenadas X e Y de la imagen respectivamente, calculando entre varios puntos y haciendo una media, nos sale que el escalar es de aproximadamente 101.81, siendo negativo en X y positivo en Y.
+
+
+
 
 
 
