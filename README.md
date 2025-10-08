@@ -22,11 +22,11 @@ Una vez tenemos esto en cuenta, podemos empezar a hacer el registro del mapa. Pa
 
 !!!!!!Comprobar signos y valores¡¡¡¡¡¡
 
-Congosto puntos ya calculados, podemos empezar con las matrices de transformación. Necesitamos saber la traslación,  rotación y escala de un mapa al otro. Empezando por lo fácil, la rotación de un mapa a otro es de 0°, lo que hará la matriz más sencilla. Para poder calcular la traslación nos vamos a basar en el primer punto calculado: en el punto (0,0) de la imagen, la posición del robot es (-5.67 , 0 , 3.99). Haciendo la relación entre sistemas de coordenadas entre simulador e imagen podemos sacar que la translación en X es de 5.67 y de Y -3.99. Sólo nos quedaría calcular el escalar, para ello, he seguido la siguiente fórmula
+Congosto puntos ya calculados, podemos empezar con las matrices de transformación. Necesitamos saber la traslación,  rotación y escala de un mapa al otro. Empezando por lo fácil, la rotación de un mapa a otro es de 0°, lo que hará la matriz más sencilla. Para poder calcular la traslación nos vamos a basar en el primer punto calculado: en el punto (0,0) de la imagen, la posición del robot es (-5.67 , 0 , 4.17). Haciendo la relación entre sistemas de coordenadas entre simulador e imagen podemos sacar que la translación en X es de 5.67 y de Y -4.17. Sólo nos quedaría calcular el escalar, para ello, he seguido la siguiente fórmula
 
 |           | Imagen         | Gazebo        |
 | :---      |     :---:      |          ---: |
-| Punto A   |   (0,0)        | (5.67, -3.99) |
+| Punto A   |   (0,0)        | (5.67, -4.17) |
 | Punto B   | (1012,1012)    | (-4.27,5.95)  |
 
 <img width="192" height="69" alt="CodeCogsEqn" src="https://github.com/user-attachments/assets/443c91b6-c03b-4b68-b2ad-3deae170cac3" />
@@ -36,12 +36,21 @@ Congosto puntos ya calculados, podemos empezar con las matrices de transformaci�
 
 Teniendo en cuenta que U y J corresponden a las coordenadas X e Y de la imagen respectivamente, calculando entre varios puntos y haciendo una media, nos sale que el escalar es de aproximadamente 101.81, siendo negativo en X y positivo en Y.
 
+Teniendo ya todos los datos, podemos sustituir en la fórmula:
 
+<img width="772" height="219" alt="image" src="https://github.com/user-attachments/assets/c5c9d42d-04f1-425b-a9b9-ac2083722a4a" />
 
+Lo último a tener en cuenta es que podemos olvidarnos de la coordenada Z, y necesitaríamos la Tranformada de dicha matriz, cambiando el signo de la translación. La matriz sería:
 
+``` python
+T_inv = [[1, 0, -5.6], [0, 1, 4.17], [0, 0, 1]]
+scale_x = -101.81
+scale_y = 101.81
+```
 
+### Creación de la rejilla de navegación
 
-registro del mapa
+El propio enenciado de la práctica nos dice que la aspiradora tiene un tamaño de 35x35 pixel, además de saber que el mapa mide 1012x1012
 
 2.- creación de la rejilla de navegación
 
