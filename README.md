@@ -59,6 +59,17 @@ El propio enenciado de la práctica nos dice que la aspiradora tiene un tamaño 
 - Punto de retorno --> 4
 
 De esta forma, es más sencillo a la hora de planificar.
+Además, para poder saber cuándo una celda debe ser obstáculo o no, en función de la proporción de píxeles blancos respecto a los negro, será libre o no.
+
+Mapa solo con las rejillas:
+
+<img width="553" height="311" alt="Screenshot from 2025-09-28 12-25-33" src="https://github.com/user-attachments/assets/911bfd6e-0195-48ed-a79f-1bf71b982bb7" />
+
+Mapa con celdillas ya clasificadas:
+
+<img width="553" height="311" alt="Screenshot from 2025-09-28 12-38-11" src="https://github.com/user-attachments/assets/0563e582-5f26-4d72-90e1-7b30714f523f" />
+
+<img width="1155" height="750" alt="Screenshot from 2025-09-28 19-05-34" src="https://github.com/user-attachments/assets/ac22564f-9954-4384-9045-29f70f531f68" />
 
 ### Planificación de ruta siguiendo algoritmo de cobertura BSA
 
@@ -78,12 +89,29 @@ Para establecer los vecinos libres como posibles puntos de retorno, mientras voy
 4. **Punto crítico:**
 Se considera punto crítico cuando ya no puedo moverme a ninguna dirección sin pasar por obstáculo o celda libre. Para buscar el siguiente punto de retorno, calculamos la distancia Manhattan de cada posible punto de retorno con el punto crítico. Nos quedamos con la distancia más corta y volvemos a generar una ruta de celdillas (sólo limpias) hasta el punto de retorno. De esta forma podemos simplificar el movimiento entre celdillas más alejadas y evitar una vez más los posibles choques.
 
+Vídeo ejemplo de la planificación:
+
+
+https://github.com/user-attachments/assets/a25e48d2-1eaa-4c94-89ba-b0afbbafb267
+
+Más ejemplos de planes desde diferentes posiciones iniciales:
+
+
+https://github.com/user-attachments/assets/4237c3df-ad6b-4fdc-bedd-1b8e6fa3223b
+
+
+
 ### Pilotaje reactivo para ejecutar la ruta planificada.
 
 Teniendo la ruta entera que debe serguir la aspiradora, el pilotaje es más sencillo, lo único que debemos hacer comprobar la posición de la aspiradora respecto a las celdillas (usando lo visto en el punto 1) e ir moviendonos celdilla a celdilla sin chocarnos. Para calcular la posición del robot respecto a la matriz de celdas usamos:
 
 ``` python
-Añadir código de posición
+pos_rum_gaz = [HAL.getPose3d().x , HAL.getPose3d().y , 1]
+pos_rum_t = np.dot(T_inv , pos_rum_gaz)
+pos_rum_img = [pos_rum_t[0] * scale_x , pos_rum_t[1] * scale_y]
+
+# Calcular casilla
+pos_rum_mc = [int(pos_rum_img[1] / 44), int((pos_rum_img[0]) / 44)]
 ```
 
 ### Dificultades de la práctica
@@ -96,4 +124,6 @@ Por último, no fue una dificulttad pero si un inconveniente, era el tiempo de e
 
 ### Vídeo final
 
-AÑADIR VIDEO 
+Enlace al vídeo [aquí](https://youtu.be/rjfFn_xc5UA)
+
+Si no puede visualizarlo copie y pegue el enlace: https://youtu.be/rjfFn_xc5UA
