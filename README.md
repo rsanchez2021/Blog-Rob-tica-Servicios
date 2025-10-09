@@ -66,23 +66,34 @@ El algoritmo de cobertura BSA se basa en seguir siempre una dirección, hasta en
 
 Para poder pasar de teoría a código voy a ir poco a poco.
 
-1. Direcciones
+1. **Direcciones:**
 En mi caso, el orden de prioridad de las direcciones es: ESTE , NORTE , OESTE , SUR . Todo tomándolo como sistema de referencia la imagen, no la del propio robot, es decir, puede no girar hacia el ESTE (derecha) de la aspiradora.
 
-2. Obstáculos y puntos visitados
+2. **Obstáculos y puntos visitados:**
 Ambos casos se consideran obstáculos, excepto a la llegada de un punto crítico que se toman los puntos visitados como los únicos posibles para poder moverse. De esta forma, optimizamos el algoritmo y nos evitamos choques con mobiliario y/o paredes.
 
-3. Vecinos libres
+3. **Vecinos libres:**
 Para establecer los vecinos libres como posibles puntos de retorno, mientras voy generando la ruta, se comprueba los vecinos de cada celdilla y nos quedamos solo con los sucios no visitados.
 
-4. Punto crítico
+4. **Punto crítico:**
 Se considera punto crítico cuando ya no puedo moverme a ninguna dirección sin pasar por obstáculo o celda libre. Para buscar el siguiente punto de retorno, calculamos la distancia Manhattan de cada posible punto de retorno con el punto crítico. Nos quedamos con la distancia más corta y volvemos a generar una ruta de celdillas (sólo limpias) hasta el punto de retorno. De esta forma podemos simplificar el movimiento entre celdillas más alejadas y evitar una vez más los posibles choques.
 
+### Pilotaje reactivo para ejecutar la ruta planificada.
 
+Teniendo la ruta entera que debe serguir la aspiradora, el pilotaje es más sencillo, lo único que debemos hacer comprobar la posición de la aspiradora respecto a las celdillas (usando lo visto en el punto 1) e ir moviendonos celdilla a celdilla sin chocarnos. Para calcular la posición del robot respecto a la matriz de celdas usamos:
 
+``` python
+Añadir código de posición
+```
 
-4.- pilotaje reactivo para ejecutar la ruta planificada.
+### Dificultades de la práctica
 
-5.- Dificultades de la práctica
+La mayor dificultad que he tenido durante la práctica es la implementación de los puntos de retorno una vez llegaba a un punto crítico, ya que sólo buscaba el primer punto, sin tener en cuenta la distancia a ellos o el hecho de tener que atravesar algún obstáculo. Pero una vez implementado la creación de una ruta por celdas usando el algoritmo de los vecinos cercanos!!!!!!!!!!! CAMBIAR NOMBRE, no hubo más complicación.
 
-6.- Vídeo final
+La segunda gran dificultad fue la falta de precisión en la toma de los puntos. En un principio, saqué solo dos puntos, y había momentos en lo que se chocaba con las paredes o con el mobiliario, pero al tomar más puntos, los valores se hacen más certeros y me evité los choques.
+
+Por último, no fue una dificulttad pero si un inconveniente, era el tiempo de ejecución que tardaba la aspiradora en recorrer toda la casa. Hubo muchas pruebas en las que la aspiradora se chocaba a último momento tras más de 20 min de ejecución.
+
+### Vídeo final
+
+AÑADIR VIDEO 
