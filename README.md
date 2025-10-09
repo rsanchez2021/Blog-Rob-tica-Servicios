@@ -50,10 +50,39 @@ scale_y = 101.81
 
 ### Creación de la rejilla de navegación
 
-El propio enenciado de la práctica nos dice que la aspiradora tiene un tamaño de 35x35 pixel, además de saber que el mapa mide 1012x1012
+El propio enenciado de la práctica nos dice que la aspiradora tiene un tamaño de 35x35 pixel, además de saber que el mapa mide 1012x1012, por ello, haciendo varias pruebas, el tamaño que he usado para las celdas es de 44 pixeles, de esta forma, no se quedan píxeles sueltos, y obtenemos una matriz de 23x23 correspondiente a cada celdilla, donde se representan los tipos de celdas como:
 
-2.- creación de la rejilla de navegación
+- Obstáculo --> 0
+- Sucio --> 1
+- Limpia --> 2
+- Punto crítico --> 3
+- Punto de retorno --> 4
 
-3.- planificación de ruta siguiendo algoritmo de cobertura BSA
+De esta forma, es más sencillo a la hora de planificar.
+
+### Planificación de ruta siguiendo algoritmo de cobertura BSA
+
+El algoritmo de cobertura BSA se basa en seguir siempre una dirección, hasta encontrar un obstáculo y seguir en otra dirección, así sucesivamente. Mientras avanza va marcando puntos ya visitados (en este caso llimpios) mientras que marca también los vecinos libres (que serán nuestros puntos de retorno). Cuando ya no puede moverse a ninguna dirección sin pasar por obstáculo o por un sitio ya visitado, encontes se crea un punto crítico. Para poder salir, busca el punto de retorno más cercano y vuelve a repetir el algoritmo. De esta forma, va generando espirales hasta tener completa la cobertura total. 
+
+Para poder pasar de teoría a código voy a ir poco a poco.
+
+1. Direcciones
+En mi caso, el orden de prioridad de las direcciones es: ESTE , NORTE , OESTE , SUR . Todo tomándolo como sistema de referencia la imagen, no la del propio robot, es decir, puede no girar hacia el ESTE (derecha) de la aspiradora.
+
+2. Obstáculos y puntos visitados
+Ambos casos se consideran obstáculos, excepto a la llegada de un punto crítico que se toman los puntos visitados como los únicos posibles para poder moverse. De esta forma, optimizamos el algoritmo y nos evitamos choques con mobiliario y/o paredes.
+
+3. Vecinos libres
+Para establecer los vecinos libres como posibles puntos de retorno, mientras voy generando la ruta, se comprueba los vecinos de cada celdilla y nos quedamos solo con los sucios no visitados.
+
+4. Punto crítico
+Se considera punto crítico cuando ya no puedo moverme a ninguna dirección sin pasar por obstáculo o celda libre. Para buscar el siguiente punto de retorno, calculamos la distancia Manhattan de cada posible punto de retorno con el punto crítico. Nos quedamos con la distancia más corta y volvemos a generar una ruta de celdillas (sólo limpias) hasta el punto de retorno. De esta forma podemos simplificar el movimiento entre celdillas más alejadas y evitar una vez más los posibles choques.
+
+
+
 
 4.- pilotaje reactivo para ejecutar la ruta planificada.
+
+5.- Dificultades de la práctica
+
+6.- Vídeo final
