@@ -1,26 +1,26 @@
 # Blog-Rob-tica-Servicios
 
-**Recomendación antes de leer**: algunas imagenes no tienen fondo, recomendado usar el modo claro para poder visualizarlas.
+**Recomendación antes de leer**: algunas imágenes no tienen fondo, por lo que se recomienda usar el modo claro para poder visualizarlas correctamente.
 
 ## Práctica 1 - Aspiradora localizada
 
 La primera práctica se basa en crear un algoritmo BSA de cobertura para una aspiradora. El objetivo es limpiar la mayor superficie posible de una casa, para ello nos proporcionan una imagen en blanco y negro del mapa de la casa, un mundo simulado en Gazebo y las coordenadas del robot (posición y orientación) en dicho mundo. 
 
-Para poder obordar la práctica poco a poco, podemos dividirla en 4 fases principales.
+Para poder abordar la práctica poco a poco, podemos dividirla en 4 fases principales.
 
 ### Registro del mapa
 
 El primer paso para poder afrontar la práctica es entender los sistemas de coordenadas de cada mapa que tenemos. Por un lado, Gazebo tiene una representación en 3D, y la imagen en 2D. Si la observamos como si fuese una matriz, el eje X representa las columnas y la Y las filas.
 
-(añadir imagen apuntes)
+<img width="729" height="310" alt="image" src="https://github.com/user-attachments/assets/7d5fd6be-0e74-4250-a45e-52fb8851f01c" />
 
-Una vez tenemos esto en cuenta, podemos empezar a hacer el registro del mapa. Para ello, tenemos que ir moviendo el robot a diferentes puntos y apuntar tanto la posición en el simulador como en la imagen. Algo a tener en cuenta es que la imagen tiene una resolución de 1012x1012 pixel. Lo más óptimo sería hacerlo con 12 puntos, pero en este caso lo haré con 4 puntos que serán las 4 esquinas de la casa. En el video se puede ver la toma de coordenadas de un punto:
 
-( añadir video)
+Una vez tenemos esto en cuenta, podemos empezar a hacer el registro del mapa. Para ello, tenemos que ir moviendo el robot a diferentes puntos y apuntar tanto la posición en el simulador como en la imagen. Algo a tener en cuenta es que la imagen tiene una resolución de 1012x1012 píxeles. Lo más óptimo sería hacerlo con 12 puntos, pero en este caso lo haré con 4 puntos que serán las 4 esquinas de la casa.
 
-(añadir tabla)
-
-!!!!!!Comprobar signos y valores¡¡¡¡¡¡
+| First Header  | Second Header |
+| ------------- | ------------- |
+| Content Cell  | Content Cell  |
+| Content Cell  | Content Cell  |
 
 Con estos puntos ya calculados, podemos empezar con las matrices de transformación. Necesitamos saber la traslación,  rotación y escala de un mapa al otro. Empezando por lo fácil, la rotación de un mapa a otro es de 0°, lo que hará la matriz más sencilla. Para poder calcular la traslación nos vamos a basar en el primer punto calculado: en el punto (0,0) de la imagen, la posición del robot es (-5.67 , 0 , 4.17). Haciendo la relación entre sistemas de coordenadas entre simulador e imagen podemos sacar que la traslación en X es de 5.67 y en Y -4.17. Sólo nos quedaría calcular la escala, para ello, he seguido la siguiente fórmula
 
@@ -40,7 +40,7 @@ Teniendo ya todos los datos, podemos sustituir en la fórmula:
 
 <img width="772" height="219" alt="image" src="https://github.com/user-attachments/assets/c5c9d42d-04f1-425b-a9b9-ac2083722a4a" />
 
-Por último, podemos ignorar la coordenada Z. Necesitamos la transformada de dicha matriz, cambiando el signo de la translación. La matriz sería:
+Por último, podemos ignorar la coordenada Z. Necesitamos la transformada de dicha matriz, cambiando el signo de la traslación. La matriz sería:
 
 ``` python
 T_inv = [[1, 0, -5.6], [0, 1, 4.17], [0, 0, 1]]
@@ -50,7 +50,7 @@ scale_y = 101.81
 
 ### Creación de la rejilla de navegación
 
-El propio enunciado de la práctica nos dice que la aspiradora tiene un tamaño de 35x35 píxeles, además de saber que el mapa mide 1012x1012, por ello, haciendo varias pruebas, el tamaño que he usado para las celdas es de 44 pixeles, de esta forma, no quedan píxeles sueltos, y obtenemos una matriz de 23x23 que corresponde a cada celdilla, donde se representan los tipos de celdas como:
+El propio enunciado de la práctica nos dice que la aspiradora tiene un tamaño de 35x35 píxeles, además de saber que el mapa mide 1012x1012, por ello, haciendo varias pruebas, el tamaño que he usado para las celdas es de 44 píxeles, de esta forma, no quedan píxeles sueltos, y obtenemos una matriz de 23x23 que corresponde a cada celdilla, donde se representan los tipos de celdas como:
 
 - Obstáculo --> 0
 - Sucio --> 1
@@ -59,7 +59,7 @@ El propio enunciado de la práctica nos dice que la aspiradora tiene un tamaño 
 - Punto de retorno --> 4
 
 De esta forma, es más sencillo a la hora de planificar.
-Además, para poder saber cuándo una celda debe ser obstáculo o no, en función de la proporción de píxeles blancos respecto a los negro, determinamos so la celda es libre o no.
+Además, para poder saber cuándo una celda debe ser obstáculo o no, en función de la proporción de píxeles blancos respecto a los negros, determinamos so la celda es libre o no.
 
 Mapa solo con las rejillas:
 
@@ -87,7 +87,7 @@ Ambos casos se consideran obstáculos, excepto a la llegada de un punto crítico
 Para establecer los vecinos libres como posibles puntos de retorno, mientras voy generando la ruta, se comprueban los vecinos de cada celdilla y nos quedamos solo con los sucios no visitados.
 
 4. **Punto crítico:**
-Se considera punto crítico cuando ya no puedo moverme a ninguna dirección sin pasar por obstáculo o celda libre. Para buscar el siguiente punto de retorno, calculamos la distancia Manhattan de cada posible punto de retorno con el punto crítico. Nos quedamos con la distancia más corta y generamos una nueva ruta de celdillas (sólo limpias) hasta el punto de retorno. De esta forma podemos simplificar el movimiento entre celdillas más alejadas y evitar una vez más los posibles choques.
+Se considera punto crítico cuando ya no puedo moverme a ninguna dirección sin pasar por obstáculo o celda libre. Para buscar el siguiente punto de retorno, calculamos la distancia Manhattan de cada posible punto de retorno con el punto crítico. Nos quedamos con la distancia más corta y generamos una nueva ruta de celdillas (sólo limpias) hasta el punto de retorno. De esta forma, podemos simplificar el movimiento entre celdillas más alejadas y evitar una vez más los posibles choques.
 
 Vídeo ejemplo de la planificación:
 
@@ -103,7 +103,7 @@ https://github.com/user-attachments/assets/4237c3df-ad6b-4fdc-bedd-1b8e6fa3223b
 
 ### Pilotaje reactivo para ejecutar la ruta planificada.
 
-Teniendo la ruta entera que debe serguir la aspiradora, el pilotaje es más sencillo: lo único que debemos hacer es comprobar la posición de la aspiradora respecto a las celdillas (usando lo visto en el punto 1) e ir moviéndonos de celdilla a celdilla sin chocarnos. Para calcular la posición del robot respecto a la matriz de celdas usamos:
+Teniendo la ruta entera que debe seguir la aspiradora, el pilotaje es más sencillo: lo único que debemos hacer es comprobar la posición de la aspiradora respecto a las celdillas (usando lo visto en el punto 1) e ir moviéndonos de celdilla a celdilla sin chocarnos. Para calcular la posición del robot respecto a la matriz de celdas usamos:
 
 ``` python
 pos_rum_gaz = [HAL.getPose3d().x , HAL.getPose3d().y , 1]
@@ -118,9 +118,9 @@ pos_rum_mc = [int(pos_rum_img[1] / 44), int((pos_rum_img[0]) / 44)]
 
 La mayor dificultad que he tenido durante la práctica es la implementación de los puntos de retorno una vez llegaba a un punto crítico, ya que solo buscaba el primer punto, sin tener en cuenta la distancia a los demás o el hecho de tener que atravesar algún obstáculo. Pero una vez implementado la creación de una ruta por celdas usando el algoritmo de los vecinos cercanos!!!!!!!!!!! CAMBIAR NOMBRE, no tuve más complicaciones.
 
-La segunda gran dificultad fue la falta de precisión en la toma de los puntos. En un principio, saqué solo dos puntos, y había momentos en lo que se chocaba con las paredes o con el mobiliario, pero al tomar más puntos, los valores se hacen más certeros y me evité los choques.
+La segunda gran dificultad fue la falta de precisión en la toma de los puntos. En un principio, saqué solo dos puntos, y había momentos en los que se chocaba con las paredes o con el mobiliario, pero al tomar más puntos, los valores se hacen más certeros y me evité los choques.
 
-Por último, no fue una dificulttad pero si un inconveniente, era el tiempo de ejecución que tardaba la aspiradora en recorrer toda la casa. Hubo muchas pruebas en las que la aspiradora se chocaba a último momento tras más de 20 min de ejecución.
+Por último, no fue una dificultad pero si un inconveniente, era el tiempo de ejecución que tardaba la aspiradora en recorrer toda la casa. Hubo muchas pruebas en las que la aspiradora se chocaba a último momento tras más de 20 minutos de ejecución.
 
 ### Vídeo final
 
