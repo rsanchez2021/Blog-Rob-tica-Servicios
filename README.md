@@ -17,12 +17,15 @@ El primer paso para poder afrontar la práctica es entender los sistemas de coor
 
 Una vez tenemos esto en cuenta, podemos empezar a hacer el registro del mapa. Para ello, tenemos que ir moviendo el robot a diferentes puntos y apuntar tanto la posición en el simulador como en la imagen. Algo a tener en cuenta es que la imagen tiene una resolución de 1012x1012 píxeles. Lo más óptimo sería hacerlo con 12 puntos, pero en este caso lo haré con 4 puntos que serán las 4 esquinas de la casa.
 
-| First Header  | Second Header |
+| IMAGEN | GAZEBO |
 | ------------- | ------------- |
-| Content Cell  | Content Cell  |
-| Content Cell  | Content Cell  |
+| (938,310)  | (-4.21 , -1.40)  |
+| (850, 995)  | (-3.017 , 6.08)  |
+| (49,995)  | (5.14 , 5.55)  |
+| (49,71)  | (5.67 , -4.17)  |
 
-Con estos puntos ya calculados, podemos empezar con las matrices de transformación. Necesitamos saber la traslación,  rotación y escala de un mapa al otro. Empezando por lo fácil, la rotación de un mapa a otro es de 0°, lo que hará la matriz más sencilla. Para poder calcular la traslación nos vamos a basar en el primer punto calculado: en el punto (0,0) de la imagen, la posición del robot es (-5.67 , 0 , 4.17). Haciendo la relación entre sistemas de coordenadas entre simulador e imagen podemos sacar que la traslación en X es de 5.67 y en Y -4.17. Sólo nos quedaría calcular la escala, para ello, he seguido la siguiente fórmula
+
+Con estos puntos ya calculados, podemos empezar con las matrices de transformación. Necesitamos saber la traslación,  rotación y escala de un mapa al otro. Empezando por lo fácil, la rotación de un mapa a otro es de 0°, lo que hará la matriz más sencilla. Para poder calcular la traslación nos vamos a basar en el primer punto calculado: en el punto (0,0) de la imagen, la posición del robot es (5.67 , 0 , -4.17). Haciendo la relación entre sistemas de coordenadas entre simulador e imagen podemos sacar que la traslación en X es de 5.67 y en Y -4.17. Sólo nos quedaría calcular la escala, para ello, he seguido la siguiente fórmula
 
 |           | Imagen         | Gazebo        |
 | :---      |     :---:      |          ---: |
@@ -116,7 +119,7 @@ pos_rum_mc = [int(pos_rum_img[1] / 44), int((pos_rum_img[0]) / 44)]
 
 ### Dificultades de la práctica
 
-La mayor dificultad que he tenido durante la práctica es la implementación de los puntos de retorno una vez llegaba a un punto crítico, ya que solo buscaba el primer punto, sin tener en cuenta la distancia a los demás o el hecho de tener que atravesar algún obstáculo. Pero una vez implementado la creación de una ruta por celdas usando el algoritmo de los vecinos cercanos!!!!!!!!!!! CAMBIAR NOMBRE, no tuve más complicaciones.
+La mayor dificultad que he tenido durante la práctica es la implementación de los puntos de retorno una vez llegaba a un punto crítico, ya que solo buscaba el primer punto, sin tener en cuenta la distancia a los demás o el hecho de tener que atravesar algún obstáculo. Pero una vez implementado la creación de una ruta por celdas usando el algoritmo de los vecinos cercanos, no tuve más complicaciones.
 
 La segunda gran dificultad fue la falta de precisión en la toma de los puntos. En un principio, saqué solo dos puntos, y había momentos en los que se chocaba con las paredes o con el mobiliario, pero al tomar más puntos, los valores se hacen más certeros y me evité los choques.
 
