@@ -125,6 +125,13 @@ La segunda gran dificultad fue la falta de precisión en la toma de los puntos. 
 
 Por último, no fue una dificultad pero si un inconveniente, era el tiempo de ejecución que tardaba la aspiradora en recorrer toda la casa. Hubo muchas pruebas en las que la aspiradora se chocaba a último momento tras más de 20 minutos de ejecución.
 
+## Práctica 2 - Rescatar personas
+
+
+
+
+###
+
 ### Vídeo final
 
 Enlace al vídeo [aquí](https://youtu.be/rjfFn_xc5UA)
