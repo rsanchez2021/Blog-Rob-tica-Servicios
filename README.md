@@ -128,7 +128,7 @@ Por último, no fue una dificultad pero si un inconveniente, era el tiempo de ej
 ## Práctica 2 - Rescatar personas
 
 
-
+https://youtu.be/WOwCfB-IScM
 
 ###
 
