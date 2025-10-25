@@ -125,15 +125,58 @@ La segunda gran dificultad fue la falta de precisión en la toma de los puntos. 
 
 Por último, no fue una dificultad pero si un inconveniente, era el tiempo de ejecución que tardaba la aspiradora en recorrer toda la casa. Hubo muchas pruebas en las que la aspiradora se chocaba a último momento tras más de 20 minutos de ejecución.
 
-## Práctica 2 - Rescatar personas
-
-
-https://youtu.be/WOwCfB-IScM
-
-###
 
 ### Vídeo final
 
 Enlace al vídeo [aquí](https://youtu.be/rjfFn_xc5UA)
 
 Si no puede visualizarlo copie y pegue el enlace: https://youtu.be/rjfFn_xc5UA
+
+## Práctica 2 - Rescatar personas
+
+La segunda práctica consiste en realizar un barrido sobre una superficie del mar y detectar a todos las personas flotando. Para ello, nos proporcionan la imagen frontal y ventral de un dron, las posición del barco del que despega el dron, una posición aproximada de la zona a recorrer y tres posibilidades del control del dron (posición, velocidad o mixto). 
+
+A la hora de realizar la práctica se divide en tres apartados
+
+
+### Coordenadas
+
+El enunciado de la práctica nos dice que el barco se enccuentra en la posición **40º16’48.2” N, 3º49’03.5” W** y la zona de rescate cerca de **40º16’47.23” N, 3º49’01.78” W**, en coordenadas GPS.
+
+EL primer paso es convertir las coordenadas a UTM, para ello usamos la página web proporcionada por el enunciado y obtenemos [[1]](http://rcn.montana.edu/Resources/Converter.aspx):
+
+| GPS | UTM |
+| ------------- | ------------- |
+| 40º16’48.2” N, 3º49’03.5” W  | Zona 30 430492E  4459162N |
+| 40º16’47.23” N, 3º49’01.78” W  | Zona 30  430532E 4459132N |
+
+Una vez tenemos las coordenadas UTM podemos calcular la posición en metros respecto a las coordenadas globales. Simplemente nos tenemos que quedar con los tres últimos números de Easting y Northing:
++ Bote: (492,161)
++ Zona: (532,132)
+
+El último paso es realizar la translación correspondiente a la posición local del dron, es decir, el dron comienza en la posición (0,0) que corresponde con la posición de bote.
+
+<img width="1600" height="708" alt="image" src="https://github.com/user-attachments/assets/9b0af804-a3f6-46e9-9e53-1e4780c6153c" />
+
+
+
+Hay que tener en cuenta también que el movimiento del dron es: Forward (+x), Left (+y), Up (+z). Esto se refleja en que las posiciones en el eje Y deben ser negativas y que los ejes X e Y están invertidos.
+
+<img width="338" height="290" alt="image" src="https://github.com/user-attachments/assets/2e39ea7d-b149-4427-b24b-95e68ffa9d43" />
+
+Por tanto, la tabla de conversión de coordenadas quedaría:
+
+| GPS | UTM | Global | Local |
+| ------------- | ------------- | ------------- | ------------- |
+| 40º16’48.2” N, 3º49’03.5” W  | Zona 30 430492E  4459162N | (492,161) | (0,0) |
+| 40º16’47.23” N, 3º49’01.78” W  | Zona 30  430532E 4459132N | (532,132) | (29, -40) |
+
+Comentar también que en mi caso, el dron no empieza en (29,-40) exactamente ya que el primer movimiento que realiza es hacia *Forward*, ppor lo que comienza en (22, -40) 
+
+
+### Barrido del área
+
+
+### Detección de caras
+
+https://youtu.be/WOwCfB-IScM
