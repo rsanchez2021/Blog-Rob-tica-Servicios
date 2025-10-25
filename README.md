@@ -173,8 +173,13 @@ Por tanto, la tabla de conversión de coordenadas quedaría:
 
 Comentar también que en mi caso, el dron no empieza en (29,-40) exactamente ya que el primer movimiento que realiza es hacia *Forward*, ppor lo que comienza en (22, -40) 
 
-
 ### Barrido del área
+
+Teniendo las primeras coordenadas calculadas, el primer comando para el dron se hace por posición, manteniendo durante todo el barrido de la zona una altura constante y un yaw (ángulo de rotación del dron) sin modificar. Esta será útil para el siguiente paso de detección de caras.
+
+Una vez llega a la zona, el barrido lo realizo con control por velocidad, haciendo un recorrido constante hasta que se cubre un área determinada.
+
+<img width="1199" height="1164" alt="image" src="https://github.com/user-attachments/assets/5aef516b-0d43-4b5d-8080-b879ee2c9d01" />
 
 
 ### Detección de caras
