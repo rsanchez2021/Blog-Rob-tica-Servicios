@@ -184,4 +184,25 @@ Una vez llega a la zona, el barrido lo realizo con control por velocidad, hacien
 
 ### Detección de caras
 
-https://youtu.be/WOwCfB-IScM
+El último paso es la detección de caras. Para ello he usado Haar Cascade que nos proporciona el propio enunciado. La única implementación extra que he tenido que usar es el giro de la imagen.
+
+Tenemos la posición de las caras en (x,y) en píxeles respecto a la imagen ventral, no en las coordenadas locales del dron. Para poder calcularlas necesitamos saber:
++ FOV del dron: 60º horizontal y 45º vertical
++ Tamaño de la imagen en pixeles: 320px x 240px
++ Altura constante del dron: 2 metros
+
+Con estos datos podemos calcular la correspondencia en metros de la siguiente manera:
+
+
+
+<img width="346" height="37" alt="CodeCogsEqn" src="https://github.com/user-attachments/assets/7fa464d7-c95e-45b5-a879-29b57901b3be" />
+
+<img width="360" height="37" alt="CodeCogsEqn(1)" src="https://github.com/user-attachments/assets/a8aecf00-6c65-4ede-824d-778815b9d5df" />
+
+
+<img width="1567" height="1282" alt="image" src="https://github.com/user-attachments/assets/c75335bf-a038-433a-a0f5-d4d851bb1c51" />
+
+
+### Vídeo final
+
+Enlace al [vídeo](https://youtu.be/WOwCfB-IScM)
