@@ -206,3 +206,8 @@ Con estos datos podemos calcular la correspondencia en metros de la siguiente ma
 ### Vídeo final
 
 Enlace al [vídeo](https://youtu.be/WOwCfB-IScM)
+
+
+## Práctica 3
+
+https://youtu.be/CzMuiJkklKE
