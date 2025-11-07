@@ -214,7 +214,7 @@ La tercera práctica consiste en hacer aparcar un coche en varias situaciones di
 
 ### Alineación con la carretera
 
-Al empezar la práctica nos encontramos con que el coche no está orientado con la calle ni con el resto de coches. Como el algoritmo de aparcado debe ser general, sin importar la orientación de la calla, no podemos usar la posición GPS a la hora de implementarlo.
+Al empezar la práctica nos encontramos con que el coche no está orientado con la calle ni con el resto de coches. Como el algoritmo de aparcado debe ser general, sin importar la orientación de la calle, no podemos usar la posición GPS a la hora de implementarlo.
 
 El primer paso consiste en calcular la desviación de nuestro coche respecto al resto, para ello, busco un coche con el láser derecho (medida menor a 4m) y me quedo con el punto inicial del coche y el final, de esta forma, obtengo un triángulo:
 
@@ -246,6 +246,28 @@ Por otro lado, podemos calcular el ángulo deseado usando el teorema de la suma 
 
 
 Haciendo la resta entre el ángulo deseado y el que actual, podemos calcular el ángulo de desviación que tenemos, que en este caso es de 18º que son 0,314159 radianes. Sabiendo esto, calculamos el ángulo de orientación respecto al resto de coches.
+
+### Aparcamiento del coche
+
+Al principio intenté hacer que el coche aparcara parándose en paralelo con el coche de delante y luego girando hacia atrás (que suele ser lo normal a la hora de aparcar) pero como teníamos que hacerlo en varios casos diferentes ,uno de ellos sin coches delante, opté por hacerlo de otro modo.
+
+El primer paso es encontrar un sitio en el que poder aparcar el coche. El segundo paso es acercarme lo máximo posible hacia ese sitio:
+
+
+<img width="480" height="469" alt="image" src="https://github.com/user-attachments/assets/0d1dfeb4-b6e6-40cd-bd80-58c2a25f6ade" />
+
+
+En todo momento de la maniobra se está comprobando que no se vaya a chocar con ningún coche, y en caso de ser así, recula hacia el otro lado. El tercer paso es enderezar el coche hasta que o se vaya a chocar con el de alante o hasta que quede orientado con la posición que tienen los coches que calculé al inicio:
+
+
+<img width="480" height="469" alt="image" src="https://github.com/user-attachments/assets/447fbe58-ce4e-4cc7-bbde-3d7adfe7cbb5" />
+
+
+Y por último, dar marcha atrás para dejar el coche centrado en el hueco
+
+
+<img width="480" height="469" alt="image" src="https://github.com/user-attachments/assets/470c1d07-5d0f-4da6-978a-f04b6242a562" />
+
 
 
 https://youtu.be/CzMuiJkklKE
