@@ -210,11 +210,11 @@ Enlace al [vídeo](https://youtu.be/WOwCfB-IScM)
 
 ## Práctica 3 - Autoparking
 
-La tercera práctica consiste en hacer aparcar un coche en varias situaciones diferentes. Para ello, contamos con tres sensores láser (delante, derecha y trasero) además de la posición GPS del coche. A la hora de realizar la práctica, podemos dividirla en dos etapas.
+La tercera práctica consiste en hacer aparcar un coche en varias situaciones diferentes. Para ello, contamos con tres sensores láser (delantero, derecho y trasero) además de la posición GPS del coche. A la hora de realizar la práctica, podemos dividirla en dos etapas.
 
 ### Alineación con la carretera
 
-Al empezar la práctica nos encontramos con que el coche no está orientado con la calle ni con el resto de coches. Como el algoritmo de aparcado debe ser general, sin importar la orientación de la calle, no podemos usar la posición GPS a la hora de implementarlo.
+Al empezar la práctica, nos encontramos con que el coche no está orientado con la calle ni con el resto de coches. Como el algoritmo de aparcado debe ser general, sin importar la orientación de la calle, no podemos usar la posición GPS a la hora de implementarlo.
 
 El primer paso consiste en calcular la desviación de nuestro coche respecto al resto. Para ello, busco un coche con el láser derecho (medida menor a 4m) y me quedo con el punto inicial y final del coche, de esta forma, obtengo un triángulo:
 
@@ -229,10 +229,12 @@ Con estos datos, podemos calcular el tercer lado restante de la siguiente manera
 
 <img width="325" height="23" alt="CodeCogsEqn" src="https://github.com/user-attachments/assets/365c1615-0025-48eb-b342-e8f8ad5863f4" />
 
+-
+
 <img width="244" height="22" alt="CodeCogsEqn (1)" src="https://github.com/user-attachments/assets/ebcb3977-98ad-4b21-8f53-b1f371886c08" />
 
 
-Teniendo los tres lados, y usando el teorema de senos y cosenos, podemos calcular el ángulo alpha:
+Teniendo los tres lados, y usando los teoremas del seno y del coseno, podemos calcular el ángulo alpha:
 
 
 <img width="242" height="40" alt="CodeCogsEqn (2)" src="https://github.com/user-attachments/assets/724e53b0-2c2f-4ef0-b997-7d4023b816c5" />
@@ -240,35 +242,43 @@ Teniendo los tres lados, y usando el teorema de senos y cosenos, podemos calcula
 
 Por otro lado, podemos calcular el ángulo deseado usando el teorema de la suma de los ángulos internos de la siguiente forma:
 
+
+
 <img width="318" height="440" alt="image" src="https://github.com/user-attachments/assets/b9d1415c-1335-4c47-aafb-5353152c7c8e" />
+
+
+-
+
 
 
 <img width="108" height="37" alt="CodeCogsEqn (3)" src="https://github.com/user-attachments/assets/45686aa0-8833-4891-b707-77ec6497f5bf" />
 
 
-Haciendo la resta entre el ángulo deseado y el que actual, podemos calcular el ángulo de desviación que tenemos, que en este caso es de 18º que son 0,314159 radianes. Sabiendo esto, calculamos el ángulo de orientación respecto al resto de coches.
+Haciendo la resta entre el ángulo deseado y el actual, podemos calcular el ángulo de desviación que tenemos, que en este caso es de 18º (0,314159 radianes). Sabiendo esto, calculamos el ángulo de orientación respecto al resto de los coches.
 
 ### Aparcamiento del coche
 
-Al principio intenté hacer que el coche aparcara parándose en paralelo con el coche de delante y luego girando hacia atrás (que suele ser lo normal a la hora de aparcar) pero como teníamos que hacerlo en varios casos diferentes ,uno de ellos sin coches delante, opté por hacerlo de otro modo.
+Al principio intenté hacer que el coche aparcara parándose en paralelo con el coche de delante y luego girando hacia atrás (como suele hacerse al aparcar). Sin embargo, como tenemos que hacerlo en varios casos diferentes, uno de ellos sin coches delante, opté por hacerlo de otro modo.
 
-El primer paso es encontrar un sitio en el que poder aparcar el coche. El segundo paso es acercarme lo máximo posible hacia ese sitio:
+El primer paso es encontrar un sitio donde poder aparcar el coche. El segundo paso es acercarme lo máximo posible a ese sitio:
 
 
 <img width="480" height="469" alt="image" src="https://github.com/user-attachments/assets/0d1dfeb4-b6e6-40cd-bd80-58c2a25f6ade" />
 
 
-En todo momento de la maniobra se está comprobando que no se vaya a chocar con ningún coche, y en caso de ser así, recula hacia el otro lado. El tercer paso es enderezar el coche hasta que o se vaya a chocar con el de alante o hasta que quede orientado con la posición que tienen los coches que calculé al inicio:
-
+Durante toda la maniobra se comprueba que el coche no vaya a chocar con ningún otro, y en caso de que esté a punto de hacerlo, recula hacia el otro lado. El tercer paso es enderezar el coche hasta que esté alineado con los demás vehículos o hasta que esté a punto de chocar con el de delante.
 
 <img width="480" height="469" alt="image" src="https://github.com/user-attachments/assets/447fbe58-ce4e-4cc7-bbde-3d7adfe7cbb5" />
 
 
-Y por último, dar marcha atrás para dejar el coche centrado en el hueco
+Por último, se da marcha atrás para dejar el coche centrado en el hueco.
 
 
 <img width="480" height="469" alt="image" src="https://github.com/user-attachments/assets/470c1d07-5d0f-4da6-978a-f04b6242a562" />
 
 
+### Vídeo final
 
-https://youtu.be/CzMuiJkklKE
+En el siguiente vídeo podrás ver las distintas situaciones donde aparcar: [vídeo](https://youtu.be/9xkaDhQwb4w)
+
+
