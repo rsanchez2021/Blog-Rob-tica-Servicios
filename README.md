@@ -210,13 +210,14 @@ Enlace al [vídeo](https://youtu.be/WOwCfB-IScM)
 
 ## Práctica 3 - Autoparking
 
-La tercera práctica consiste en hacer aparcar un coche en varias situaciones diferentes. Para ello, contamos con tres sensores láser (delante, derecha y atrás) además de la posición GPS del coche. A la hora de realizar la práctica lo podemos dividir en dos etapas.
+La tercera práctica consiste en hacer aparcar un coche en varias situaciones diferentes. Para ello, contamos con tres sensores láser (delante, derecha y trasero) además de la posición GPS del coche. A la hora de realizar la práctica, podemos dividirla en dos etapas.
 
 ### Alineación con la carretera
 
 Al empezar la práctica nos encontramos con que el coche no está orientado con la calle ni con el resto de coches. Como el algoritmo de aparcado debe ser general, sin importar la orientación de la calle, no podemos usar la posición GPS a la hora de implementarlo.
 
-El primer paso consiste en calcular la desviación de nuestro coche respecto al resto, para ello, busco un coche con el láser derecho (medida menor a 4m) y me quedo con el punto inicial del coche y el final, de esta forma, obtengo un triángulo:
+El primer paso consiste en calcular la desviación de nuestro coche respecto al resto. Para ello, busco un coche con el láser derecho (medida menor a 4m) y me quedo con el punto inicial y final del coche, de esta forma, obtengo un triángulo:
+
 
 <img width="665" height="719" alt="image" src="https://github.com/user-attachments/assets/3fa0b4a0-ad6b-40b5-a5cd-5c14e665d7d4" />
 
@@ -231,7 +232,7 @@ Con estos datos, podemos calcular el tercer lado restante de la siguiente manera
 <img width="244" height="22" alt="CodeCogsEqn (1)" src="https://github.com/user-attachments/assets/ebcb3977-98ad-4b21-8f53-b1f371886c08" />
 
 
-Teniendo los tres lados, usando el teorema de senos y cosenos, podemos calcular el ángulo alpha:
+Teniendo los tres lados, y usando el teorema de senos y cosenos, podemos calcular el ángulo alpha:
 
 
 <img width="242" height="40" alt="CodeCogsEqn (2)" src="https://github.com/user-attachments/assets/724e53b0-2c2f-4ef0-b997-7d4023b816c5" />
