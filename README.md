@@ -208,6 +208,44 @@ Con estos datos podemos calcular la correspondencia en metros de la siguiente ma
 Enlace al [vídeo](https://youtu.be/WOwCfB-IScM)
 
 
-## Práctica 3
+## Práctica 3 - Autoparking
+
+La tercera práctica consiste en hacer aparcar un coche en varias situaciones diferentes. Para ello, contamos con tres sensores láser (delante, derecha y atrás) además de la posición GPS del coche. A la hora de realizar la práctica lo podemos dividir en dos etapas.
+
+### Alineación con la carretera
+
+Al empezar la práctica nos encontramos con que el coche no está orientado con la calle ni con el resto de coches. Como el algoritmo de aparcado debe ser general, sin importar la orientación de la calla, no podemos usar la posición GPS a la hora de implementarlo.
+
+El primer paso consiste en calcular la desviación de nuestro coche respecto al resto, para ello, busco un coche con el láser derecho (medida menor a 4m) y me quedo con el punto inicial del coche y el final, de esta forma, obtengo un triángulo:
+
+<img width="665" height="719" alt="image" src="https://github.com/user-attachments/assets/3fa0b4a0-ad6b-40b5-a5cd-5c14e665d7d4" />
+
+
+
+
+
+Con estos datos, podemos calcular el tercer lado restante de la siguiente manera:
+
+<img width="325" height="23" alt="CodeCogsEqn" src="https://github.com/user-attachments/assets/365c1615-0025-48eb-b342-e8f8ad5863f4" />
+
+<img width="244" height="22" alt="CodeCogsEqn (1)" src="https://github.com/user-attachments/assets/ebcb3977-98ad-4b21-8f53-b1f371886c08" />
+
+
+Teniendo los tres lados, usando el teorema de senos y cosenos, podemos calcular el ángulo alpha:
+
+
+<img width="242" height="40" alt="CodeCogsEqn (2)" src="https://github.com/user-attachments/assets/724e53b0-2c2f-4ef0-b997-7d4023b816c5" />
+
+
+Por otro lado, podemos calcular el ángulo deseado usando el teorema de la suma de los ángulos internos de la siguiente forma:
+
+<img width="318" height="440" alt="image" src="https://github.com/user-attachments/assets/b9d1415c-1335-4c47-aafb-5353152c7c8e" />
+
+
+<img width="108" height="37" alt="CodeCogsEqn (3)" src="https://github.com/user-attachments/assets/45686aa0-8833-4891-b707-77ec6497f5bf" />
+
+
+Haciendo la resta entre el ángulo deseado y el que actual, podemos calcular el ángulo de desviación que tenemos, que en este caso es de 18º que son 0,314159 radianes. Sabiendo esto, calculamos el ángulo de orientación respecto al resto de coches.
+
 
 https://youtu.be/CzMuiJkklKE
