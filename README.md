@@ -154,7 +154,7 @@ Una vez tenemos las coordenadas UTM podemos calcular la posición en metros resp
 + Bote: (492,161)
 + Zona: (532,132)
 
-El último paso es realizar la translación correspondiente a la posición local del dron, es decir, el dron comienza en la posición (0,0) que corresponde con la posición de bote.
+El último paso es realizar la traslación correspondiente a la posición local del dron, es decir, el dron comienza en la posición (0,0) que corresponde con la posición de bote.
 
 <img width="1600" height="708" alt="image" src="https://github.com/user-attachments/assets/9b0af804-a3f6-46e9-9e53-1e4780c6153c" />
 
@@ -282,3 +282,57 @@ Por último, se da marcha atrás para dejar el coche centrado en el hueco.
 En el siguiente vídeo podrás ver las distintas situaciones donde aparcar: [vídeo](https://youtu.be/9xkaDhQwb4w)
 
 
+## Práctica 4 - Almacén
+
+La cuarta práctica consiste en mover diferentes robots por un almacén y hacer que sean capaces de llevar estanterías de una posición a otra. Para ello, disponemos de una imagen del mapa, las medidas del almacén y de los robots, y la posición en cada momento del robot. Para realizar esta práctica la podemos dividir en varias etapas, dependiendo de la geometría usada en cada una.
+
+### OMPL
+
+Para realizar el plan de movimiento se ha usado OMPL (Open Motion Planning Library). Para poder utilizarlo he necesitado:
+
+- Definir el espacio de estados. En las primeras etapas con robot holonómico he usado un espacio SE(2) con libertad total de rotación y traslación. Sin embargo, en la etapa Ackerman el espacio usado es DubinsStateSpace, ya que su movimiento está limitado por un radio mínimo de giro. Este espacio de estado genera caminos formados por segmentos rectos y arcos físicamente realizables por el robot.
+- Configurar los límites del espacio, en este caso las medidas del almacén.
+- Implementar la función isStateValid(), usada para comprobar que el robot en cierta posición y orientación es válido. En esta función se implementa la geometría, explicada más adelante.
+- Elegir planificador. En ambos todos los casos he usado RRTConnect.
+- Conseguir el plan con todas las características anteriores y mostrar en el mapa.
+
+### Etapa 1 - Sin geometría
+
+La etapa uno corresponde a la NO utilización de geometría a la hora de realizar el plan. Para ello, se ensanchan los obstáculos y sólo se comprueba si el centro del robot (en este caso holonómico) queda dentro de algún obstáculo.
+
+
+<img width="666" height="1000" alt="Diseño sin título" src="https://github.com/user-attachments/assets/06e1084b-cdd6-4106-8e84-f39d34355ce0" />
+
+
+
+
+### Etapa 2 - Geometría cuadrada
+
+Para la segunda etapa, la geometría del robot cambia a un cuadrado de lado 30cm. Ahora no vale sólo con comprobar si la posición del robot (el centro de este) no colisiona con algún objeto, sino que hay que comprobar que cada una de las esquinas no colisione. Para ello, en la función isStateValid() se debe comprobar que ninguna esquina queda fuera del mapa o colisiona con un obstáculo (distancia entre esquina y obstáculo superior a la mitad del robot).
+
+Además, en esta etapa el robot es holonómico, por lo que puede hacer giros sobre si mismo. Gracias a esto, el control de movimiento es mucho más sencillo, ya que se puede alinear con el siguiente waypoint sin problema, con el robot Ackerman esto no sucederá.
+
+Las rutas a las estanterías quedan:
+
+
+<img width="666" height="1000" alt="Diseño sin título(1)" src="https://github.com/user-attachments/assets/d2654092-455f-4a8d-b8e4-c49d2f62f991" />
+
+
+
+### Etapa 3 - Geometría rectangular
+
+La tercera etapa corresponde al momento en el que el robot levanta la estantería y por ende sus dimensiones aumentan y pasan de ser un cuadrado a un rectángulo de 1.2m x 0.5m. El robot sigue siendo holonómico, pero la comprobación de los posibles estados (isStateValid()) hay que cambiar las dimensiones del robot por las de la estantería.
+
+### Etapa 4 -Geometría rectangular y Ackerman
+
+La última etapa requiere varios cambios. Al igual que en las etapas anteriores, las dimensiones del robot cambian a 0.72m x 0.32m. Además, ahora el robot tiene un modelo de movimiento Ackerman, es decir, no puede girar sobre si mismo y tiene un límite de radio de giro, haciendo que el control de movimiento sea más difícil. 
+
+Las rutas quedarían:
+
+
+<img width="666" height="1000" alt="Diseño sin título(2)" src="https://github.com/user-attachments/assets/8bdeb04d-0347-4dca-bb78-e7cc104eed8b" />
+
+
+### Vídeo final
+
+En el siguiente video puedes ver el recorrido de ida y vuelta: [vídeo](https://youtu.be/0h-MwwhngwE)
