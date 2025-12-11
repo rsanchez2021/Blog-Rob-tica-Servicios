@@ -336,3 +336,39 @@ Las rutas quedarían:
 ### Vídeo final
 
 En el siguiente video puedes ver el recorrido de ida y vuelta: [vídeo](https://youtu.be/0h-MwwhngwE)
+
+## Práctica 5 - Laser Mapping
+
+La quinta práctica consiste en mapear un almacén para poder generar el mapa. Para ello, contamos con un lidar 360º y la localización del robot. Podemos dividir la práctica en dos: movimiento reactivo y mapeado
+
+### Construcción del mapa
+
+El mapa se representa como una rejilla 2D (igual que la imagen) donde cada celda contiene la probabilidad de estar ocupada con un rango de [0,1]. Cuanto más se acerca a 1, más probabilidad de estar ocupada. El mapa inicial empieza con una probabilidad de 0.5
+
+El primer paso para actualizar las probabilidades es saber la distania a la que detecta el lidar un objeto (en caso de ser detectado). He establecido un limite máximo de 3.5m alrededor del robot, ya que muchos rayos dan infinito o número muy grandes. Por el contrario, si el valor es menor de 3.5, se considera como obstáculo detectado.
+
+El segundo paso es generar la línea que uno el robot con el punto final del laser para poder actualizar todas las rejillas entre medias. Para poder hacer esto, se itera avanzando en vertical u horizontal hasta llegar a la posición final y guardar los puntos.
+
+Una vez tenemos los puntos libres y el punto final (obstáculo o no) podemos aplicar la ecuación de Bayes, teniendo en cuenta los valores de probabilidad si son obstáculo o celda libre:
+
+IMAGEN
+
+Tras varias pruebas para saber qué valores son los más óptimos para la probabilidad, he establecido:
+- P_FREE = 0.1 Si el valor fuese más bajo, habría que pasar varias veces por las mismas celdas para poder establecerlo como libre en vez de indeterminado, pero si se aumenta mucho, en caso de que luego sea una celda libre, el cambio es muy costoso.
+- P_OCC = 0.97 Este valor es muy alto ya que sino no se generaba el obstáculo.
+
+Estos pasos se realizan con todo slos rayos del lidar. Una vez lo finalizamos, convertimos las probabilidades a escala de grises.
+
+### Movimiento reactivo
+
+El movimiento para esta práctica se ha hecho de dos formas, la primera fue con un algoritmo aleatorio y la segunda siguiendo una serie de espirales.
+
+Para el segundo caso, el robot sigue los mismos patrones todo el rato, similar a lo seguido en la práctica 2 pero con un pequeño cambio. Al tener paredes ahora, no puedo ir siempre hacia la derecha o izqueirda, así que comprueba si puede girar a un lado u otro. De esta forma recorre la totalidad del mapa.
+
+
+### Mapa y recorridos
+
+<img width="579" height="374" alt="Screenshot from 2025-12-11 18-53-38" src="https://github.com/user-attachments/assets/94ac2e32-0c2c-49d3-963e-1de6a9fbf62e" />
+
+
+<img width="1148" height="262" alt="Screenshot from 2025-12-09 14-47-53" src="https://github.com/user-attachments/assets/505bd6f2-977a-4e9b-9a0a-16c9ccb20c10" />
