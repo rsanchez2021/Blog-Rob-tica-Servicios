@@ -366,9 +366,29 @@ El movimiento para esta práctica se ha hecho de dos formas, la primera fue con 
 Para el segundo caso, el robot sigue los mismos patrones todo el rato, similar a lo seguido en la práctica 2 pero con un pequeño cambio. Al tener paredes ahora, no puedo ir siempre hacia la derecha o izqueirda, así que comprueba si puede girar a un lado u otro. De esta forma recorre la totalidad del mapa.
 
 
+### Diferentes posicionamientos
+
+Durante las pruebas, he probado tanto con getPose3D como con los diferentes odom que nos proporcionaban. A memdida que aumentaba el ruido en la posición, el mapa se hacía cada vez más irregular, hata llegar a algo que no se parecía en nada con el original.
+
+Ejemplo de mapa usando Odom3:
+
+<img width="1151" height="374" alt="image" src="https://github.com/user-attachments/assets/6e7e783a-203f-4455-aab8-273ded978168" />
+
+
+
 ### Mapa y recorridos
+
+Mapa y recorrido con probabilidades sin ajustar:
+
+<img width="1148" height="262" alt="Screenshot from 2025-12-09 14-47-53" src="https://github.com/user-attachments/assets/505bd6f2-977a-4e9b-9a0a-16c9ccb20c10" />
+
+
+Mapa final:
 
 <img width="579" height="374" alt="Screenshot from 2025-12-11 18-53-38" src="https://github.com/user-attachments/assets/94ac2e32-0c2c-49d3-963e-1de6a9fbf62e" />
 
 
-<img width="1148" height="262" alt="Screenshot from 2025-12-09 14-47-53" src="https://github.com/user-attachments/assets/505bd6f2-977a-4e9b-9a0a-16c9ccb20c10" />
+### Vídeo final
+
+En el siguiente video puedes ver un recorrido por el almacén tanto con un algoritmo aleatorio como con el algoritmo de espirales, además del uso de ruido en la posición:
+[vídeo](https://youtu.be/N3u-WgEXacc)
