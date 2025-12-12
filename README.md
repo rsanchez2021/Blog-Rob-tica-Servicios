@@ -388,5 +388,8 @@ Mapa final:
 
 ### Vídeo final
 
-En el siguiente video puedes ver un recorrido por el almacén tanto con un algoritmo aleatorio como con el algoritmo de espirales, además del uso de ruido en la posición:
+En el siguiente video puedes ver un recorrido por el almacén además del uso de ruido en la posición:
 [vídeo](https://youtu.be/N3u-WgEXacc)
+
+
+En este otro vídeo se puede ver el mapeo en tiempo real usando el algoritmo aleatorio de movimiento: [vídeo](https://youtu.be/M0wJg1I0s2o)
