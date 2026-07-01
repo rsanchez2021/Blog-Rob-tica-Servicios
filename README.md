@@ -4,6 +4,13 @@
 
 ### Práctica 3 - Autoparking (2º Convocatoria)
 
+### Cambio principal
+El cambio principal de esta práctica es el método de aparcamiento. En la primera entrega, el coche entraba de frente en el hueco, ahora se alinea con el coche y entra marcha atrás. 
+
+Vídeo primera entrega: [vídeo](https://youtu.be/9xkaDhQwb4w)
+
+### Introducción
+
 La tercera práctica consiste en hacer aparcar un coche en varias situaciones diferentes. Para ello, contamos con tres sensores láser (delantero, derecho y trasero) además de la posición GPS del coche. A la hora de realizar la práctica, podemos dividirla en dos etapas.
 
 ### Alineación con la carretera
