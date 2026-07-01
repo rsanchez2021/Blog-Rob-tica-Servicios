@@ -2,7 +2,7 @@
 
 **Recomendación antes de leer**: algunas imágenes no tienen fondo, por lo que se recomienda usar el modo claro para poder visualizarlas correctamente.
 
-### Práctica 3 - Autoparking (2º Convocatoria)
+### Práctica 3 - Autoparking (2ª Convocatoria)
 
 ### Cambio principal
 El cambio principal de esta práctica es el método de aparcamiento. En la primera entrega, el coche entraba de frente en el hueco, ahora se alinea con el coche y entra marcha atrás. 
@@ -17,7 +17,7 @@ La tercera práctica consiste en hacer aparcar un coche en varias situaciones di
 
 Durante el aparcamiento, es probable que no nos encontremos orientados con la calle ni con el resto de coches. Como el algoritmo de aparcado debe ser general, sin importar la orientación de la calle, no podemos usar la posición GPS a la hora de implementarlo.
 
-El primer paso consiste en calcular la desviación de nuestro coche respecto al resto. Para ello, se toma de referencia el primer coche derecho (medida menor de 4m) y me quedo con el rayo inicial i final del coche. Con estas dos medidas obtenemos un triángulo:
+El primer paso consiste en calcular la desviación de nuestro coche respecto al resto. Para ello, se toma de referencia el primer coche derecho (medida menor de 4m) y me quedo con el rayo inicial y final del coche. Con estas dos medidas obtenemos un triángulo:
 
 
 <img width="665" height="719" alt="image" src="https://github.com/user-attachments/assets/3fa0b4a0-ad6b-40b5-a5cd-5c14e665d7d4" />
@@ -57,7 +57,7 @@ Haciendo la resta entre el ángulo deseado y el actual, podemos calcular el áng
 
 ### Aparcamiento del coche
 
-El primer paso es encontrar un sitio donde el coche pueda aparcar. Para ello, se hace un barrido del láser y se busca los valores juntos (rayos seguidos) suficientes para realizar la maniobra. Una vez encontrado el sitio, el primer paso es avanzar recto y posteriormente girar un poco hacia el lado contrario de los coches. 
+El primer paso es encontrar un sitio donde el coche pueda aparcar. Para ello, se hace un barrido del láser y se buscan los valores juntos (rayos seguidos) suficientes para realizar la maniobra. Una vez encontrado el sitio, el primer paso es avanzar recto y posteriormente girar un poco hacia el lado contrario de los coches. 
 
 
 <img width="763" height="399" alt="Captura desde 2026-06-27 00-41-16" src="https://github.com/user-attachments/assets/6febb95a-5d20-4e5e-b50b-7e617062990c" />
@@ -67,7 +67,7 @@ El primer paso es encontrar un sitio donde el coche pueda aparcar. Para ello, se
 <img width="763" height="399" alt="Captura desde 2026-06-27 00-41-31" src="https://github.com/user-attachments/assets/0b388d3c-4587-4db9-bf27-acb381e3441e" />
 
 
-El tercer paso es dar marcha atrás sin chocar con el coche de delante (en caso de que  hubiese) ni llegar hasta el bordillo.
+El tercer paso es dar marcha atrás sin chocar con el coche de delante (en caso de que hubiese) ni llegar hasta el bordillo.
 
 
 <img width="763" height="399" alt="Captura desde 2026-06-27 00-41-49" src="https://github.com/user-attachments/assets/95c76e7d-326e-4ecb-89f1-ca4c13194bb3" />
@@ -104,7 +104,7 @@ La última práctica consiste en que un robot se autolocalice dentro de una casa
 
 ### Algoritmo de navegación
 
-En esta práctica, la navegación no era lo primordial, por lo tanto, he usado un algoritmo muy sencillo. Haciendo uso del laser, cuando detecte una pared u obstáculo gira un tiempo aleatorio de 2 o 3 segundos. De esta forma es capaz de recorrer la mayoría de la casa sin problema.
+En esta práctica, la navegación no era lo primordial, por lo tanto, he usado un algoritmo muy sencillo. Haciendo uso del láser, cuando detecte una pared u obstáculo gira un tiempo aleatorio de 2 o 3 segundos. De esta forma es capaz de recorrer la mayoría de la casa sin problema.
 
 ### Localización por balizas
 
@@ -163,9 +163,9 @@ y_robot = y_tag - dx*sin(yaw_tag) - dy*cos(yaw_tag)
 
 Para calcular la orientación aproximada del robot, necesitamos tres componentes:
 
-- Orientación real y conocida del AplirTag en el mundo
+- Orientación real y conocida del AprilTag en el mundo
 - Rotación que devuelve solvePnP sobre la cámara del robot
-- Angulo de desviación lateral de tx y tz.
+- Ángulo de desviación lateral de tx y tz.
 
 A diferencia de la primera entrega, al añadirle el cálculo de la orientación, la aproximación de la posición es más inestable y aparece con mayor ruido, especialmente en los giros muy bruscos con un AprilTag visible.
 
@@ -612,7 +612,7 @@ Pese a que muchas veces solvePnP devuelve una solución matemática, no siempre 
   - Giros excluidos: durante el estado de giro, la localización por balizas se para, ya que no se mueve del sitio en el que se encuentra.
   - Evitar saltos: en el último ejemplo del vídeo, se ha añadido una última restricción, evitar los saltos muy grandes de la posición estimada. De esta forma, la posición no varía tanto cuando detecta un tag, pero se queda parado en la última posición si el salto es muy alto.
 
-#### Cáculo final de la posición
+#### Cálculo final de la posición
 
 Una vez tenemos una posición que cumple todas las restricciones, podemos calcular la posición final estimada del robot.
 
