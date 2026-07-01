@@ -87,6 +87,97 @@ Por último, se endereza el coche para que quede alineado y no muy pegado a ning
 
 En el siguiente vídeo podrás ver las distintas situaciones donde aparcar: [vídeo](https://youtu.be/-olsbiM9kSU)
 
+
+
+
+
+## Práctica 6 - Robot que se autolocaliza con balizas visuales (2º Convocatoria)
+
+### Cambio principal
+El cambio principal de esta práctica es el cálculo de la orientación usando los tags, sin usar su posición. Este cambio está mejor explicado en la sección Orientación.
+
+Vídeo primera entrega: [Vídeo](https://youtu.be/6qK3PKtvid4)
+
+### Introducción
+
+La última práctica consiste en que un robot se autolocalice dentro de una casa con balizas visuales (AprilTags) y con odometría. Se puede dividir en tres partes la práctica: algoritmo de navegación, localización por balizas y uso de odometría para el movimiento.
+
+### Algoritmo de navegación
+
+En esta práctica, la navegación no era lo primordial, por lo tanto, he usado un algoritmo muy sencillo. Haciendo uso del laser, cuando detecte una pared u obstáculo gira un tiempo aleatorio de 2 o 3 segundos. De esta forma es capaz de recorrer la mayoría de la casa sin problema.
+
+### Localización por balizas
+
+La localización del robot se basa en la detección de balizas visuales (AprilTags) situadas en posiciones conocidas del entorno. A partir de una imagen frontal de la cámara se estima la posición del robot en el mapa.
+
+#### Detección de balizas
+
+En cada iteración se detectan las esquinas del tag en pixeles y el id del tag, que se usará más tarde para conocer su posición real en el mapa
+
+#### Parámetros de la cámara
+
+Para poder estimar la posición del tag respecto a la cámara se construye la matriz intrínseca de la cámara, proporcionada por el enunciado.
+
+#### Modelo del tag
+
+El tamaño real del tag es de 0.24x0.24 metros. Es necesario definir las esquinas equivalentes del propio tag.
+
+#### solvePnP
+
+Una vez tenemos las esquinas en pixeles del tag y el tamaño real, podemos usar solvePnP. Esta función nos devuelve tres parámetros:
+
+  - success: ha sido capaz de resolver el problema
+  - rvec: orientación del tag respecto a la cámara (dirección del eje de rotación y ángulo de rotación)
+  - tvec: posición del tag respecto a la cámara (desplazamiento lateral, desplazamiento vertical y distancia frontal)
+
+
+#### Restricciones
+
+Pese a que muchas veces solvePnP devuelve una solución matemática, no siempre es bueno usarla, ya que la posición estimada puede estar muy lejos de la realidad. Por ello, he establecido unas restricciones para hacer más robusto la localización:
+
+  - Distancia máxima al tag: se descartan tags demasiado lejos (tz > MAX_DIST)
+  - Orientación relativa al tag: usando Rodrigues calculo la orientación relativa del tag. Si dicha orientación es demasiado girado respecto a la cámara, se descarta.
+  - Selección del mejor tag: si hay varios tags visibles, se selecciona el más fiable, en este caso, el más grande (más cercano y mejor definido)
+  - Giros excluidos: durante el estado de giro, la localización por balizas se para, ya que no se mueve del sitio en el que se encuentra.
+  - Evitar saltos: en el último ejemplo del vídeo, se ha añadido una última restricción, evitar los saltos muy grandes de la posición estimada. De esta forma, la posición no varía tanto cuando detecta un tag, pero se queda parado en la última posición si el salto es muy alto.
+
+#### Cáculo final de la posición
+
+Una vez tenemos una posición que cumple todas las restricciones, podemos calcular la posición final estimada del robot.
+
+Cada AprilTag tiene asociada una pose fija en el mapa, tanto x y como yaw. Usando el vector de translación que nos devuelve solve podemos calcular la posición estimada de la siguiente forma:
+
+x_robot = x_tag + x_offset
+y_robot = y_tag + y_offset
+
+Para calcular los offset, hay que rotar el vector que nos devuelve solvePnp por el yaw del tag, de esta forma nos queda:
+
+```python
+x_robot = x_tag - dx*cos(yaw_tag) + dy*sin(yaw_tag)
+
+y_robot = y_tag - dx*sin(yaw_tag) - dy*cos(yaw_tag)
+```
+
+
+#### Cálculo final de la orientación
+
+Para calcular la orientación aproximada del robot, necesitamos tres componentes:
+
+- Orientación real y conocida del AplirTag en el mundo
+- Rotación que devuelve solvePnP sobre la cámara del robot
+- Angulo de desviación lateral de tx y tz.
+
+A diferencia de la primera entrega, al añadirle el cálculo de la orientación, la aproximación de la posición es más inestable y aparece con mayor ruido, especialmente en los giros muy bruscos con un AprilTag visible.
+
+
+### Odometría
+
+En caso de no tener visible una baliza, el robot debe moverse usando odometría. En lugar de usar la posición absoluta de los encoders, se calculan los incrementos de movimiento y se aplica sobre la última posición conocida. 
+
+### Vídeo final
+
+Vídeo final con la implementación del cálculo de la orientación: [vídeo](https://youtu.be/hllOECH_vJE)
+
 ## Práctica 1 - Aspiradora localizada
 
 La primera práctica se basa en crear un algoritmo BSA de cobertura para una aspiradora. El objetivo es limpiar la mayor superficie posible de una casa, para ello nos proporcionan una imagen en blanco y negro del mapa de la casa, un mundo simulado en Gazebo y las coordenadas del robot (posición y orientación) en dicho mundo. 
