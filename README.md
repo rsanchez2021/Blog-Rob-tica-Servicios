@@ -2,6 +2,84 @@
 
 **Recomendación antes de leer**: algunas imágenes no tienen fondo, por lo que se recomienda usar el modo claro para poder visualizarlas correctamente.
 
+### Práctica 3 - Autoparking (2º Convocatoria)
+
+La tercera práctica consiste en hacer aparcar un coche en varias situaciones diferentes. Para ello, contamos con tres sensores láser (delantero, derecho y trasero) además de la posición GPS del coche. A la hora de realizar la práctica, podemos dividirla en dos etapas.
+
+### Alineación con la carretera
+
+Durante el aparcamiento, es probable que no nos encontremos orientados con la calle ni con el resto de coches. Como el algoritmo de aparcado debe ser general, sin importar la orientación de la calle, no podemos usar la posición GPS a la hora de implementarlo.
+
+El primer paso consiste en calcular la desviación de nuestro coche respecto al resto. Para ello, se toma de referencia el primer coche derecho (medida menor de 4m) y me quedo con el rayo inicial i final del coche. Con estas dos medidas obtenemos un triángulo:
+
+
+<img width="665" height="719" alt="image" src="https://github.com/user-attachments/assets/3fa0b4a0-ad6b-40b5-a5cd-5c14e665d7d4" />
+
+
+
+Podemos calcular el tercer lado restante de la siguiente manera:
+
+<img width="325" height="23" alt="CodeCogsEqn" src="https://github.com/user-attachments/assets/365c1615-0025-48eb-b342-e8f8ad5863f4" />
+
+-
+
+<img width="244" height="22" alt="CodeCogsEqn (1)" src="https://github.com/user-attachments/assets/ebcb3977-98ad-4b21-8f53-b1f371886c08" />
+
+
+Teniendo los tres lados, y usando los teoremas del seno y del coseno, podemos calcular el ángulo alpha:
+
+
+<img width="242" height="40" alt="CodeCogsEqn (2)" src="https://github.com/user-attachments/assets/724e53b0-2c2f-4ef0-b997-7d4023b816c5" />
+
+
+Por otro lado, podemos calcular el ángulo deseado usando el teorema de la suma de los ángulos internos de la siguiente forma:
+
+
+
+<img width="318" height="440" alt="image" src="https://github.com/user-attachments/assets/b9d1415c-1335-4c47-aafb-5353152c7c8e" />
+
+
+-
+
+
+
+<img width="108" height="37" alt="CodeCogsEqn (3)" src="https://github.com/user-attachments/assets/45686aa0-8833-4891-b707-77ec6497f5bf" />
+
+
+Haciendo la resta entre el ángulo deseado y el actual, podemos calcular el ángulo de desviación que tenemos. Sabiendo esto, calculamos el ángulo de orientación respecto al resto de los coches y durante el estado "Acercar" y "Enderezar" podemos poner el coche con la misma orientación.
+
+### Aparcamiento del coche
+
+El primer paso es encontrar un sitio donde el coche pueda aparcar. Para ello, se hace un barrido del láser y se busca los valores juntos (rayos seguidos) suficientes para realizar la maniobra. Una vez encontrado el sitio, el primer paso es avanzar recto y posteriormente girar un poco hacia el lado contrario de los coches. 
+
+
+<img width="763" height="399" alt="Captura desde 2026-06-27 00-41-16" src="https://github.com/user-attachments/assets/6febb95a-5d20-4e5e-b50b-7e617062990c" />
+
+
+
+<img width="763" height="399" alt="Captura desde 2026-06-27 00-41-31" src="https://github.com/user-attachments/assets/0b388d3c-4587-4db9-bf27-acb381e3441e" />
+
+
+El tercer paso es dar marcha atrás sin chocar con el coche de delante (en caso de que  hubiese) ni llegar hasta el bordillo.
+
+
+<img width="763" height="399" alt="Captura desde 2026-06-27 00-41-49" src="https://github.com/user-attachments/assets/95c76e7d-326e-4ecb-89f1-ca4c13194bb3" />
+
+
+<img width="763" height="399" alt="Captura desde 2026-06-27 00-42-08" src="https://github.com/user-attachments/assets/e3671726-6be1-4568-9572-75b54a80d78b" />
+
+
+Por último, se endereza el coche para que quede alineado y no muy pegado a ninguno de los coches que pueda haber delante o detrás.
+
+
+<img width="763" height="399" alt="Captura desde 2026-06-27 00-56-29" src="https://github.com/user-attachments/assets/40e9737f-92ee-4c7b-a3ac-b9791273951b" />
+
+
+
+### Vídeo final
+
+En el siguiente vídeo podrás ver las distintas situaciones donde aparcar: [vídeo](https://youtu.be/-olsbiM9kSU)
+
 ## Práctica 1 - Aspiradora localizada
 
 La primera práctica se basa en crear un algoritmo BSA de cobertura para una aspiradora. El objetivo es limpiar la mayor superficie posible de una casa, para ello nos proporcionan una imagen en blanco y negro del mapa de la casa, un mundo simulado en Gazebo y las coordenadas del robot (posición y orientación) en dicho mundo. 
